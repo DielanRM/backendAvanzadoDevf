@@ -6,6 +6,7 @@
 
 //1
 import express from 'express';
+import { connect } from './config.js';
 
 //2
 const api = express();
