@@ -11,7 +11,9 @@ import { connect } from './config.js';
 //2
 const api = express();
 
+connect();
 //3
 api.listen(8000, ()=>{
     console.log('api corriendo en puerto 8000');
 });
+
