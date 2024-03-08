@@ -14,12 +14,22 @@ const createCar = async (req, res) => {
 
    const newCar = await Car.create(req.body);
    res.json(newCar);
-}
+};
 
 //Read
+//Get all cars
+const getAllcars = async (req, res)=>{
+   const cars = await Car.find();
+   res.json(cars);
+};
 
+//get car by id
+const getCarById = async (req, res)=>{
+    const car = await Car.findById(req.params.carId);
+    res.json(car);
+};
 //Update
 
 //Delete
 
-export { createCar };
+export { createCar, getAllcars, getCarById };
