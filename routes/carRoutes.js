@@ -4,10 +4,11 @@ import { createCar, getAllcars, getCarById, updateCar, deleteCar } from '../cont
 
 const carRoutes = express.Router();
 
-carRoutes.post('/cars', createCar);
-carRoutes.get('/cars', getAllcars);
-carRoutes.get('/cars/:carId', getCarById);
-carRoutes.put('/cars/:carId', updateCar);
-carRoutes.delete('/cars/:carId', deleteCar);
+
+carRoutes.post('/', createCar);
+carRoutes.get('/', getAllcars);
+carRoutes.get('/:carId', getCarById);
+carRoutes.put('/:carId', updateCar);
+carRoutes.delete('/:carId', deleteCar);
 
 export default carRoutes;

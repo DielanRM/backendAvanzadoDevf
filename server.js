@@ -24,4 +24,4 @@ api.get('/test',(req, res)=>{
     res.send('Hola esto es una prueba');
 });
 
-api.use(carRoutes);
+api.use('/cars', carRoutes);
