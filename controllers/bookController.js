@@ -82,6 +82,7 @@ const getAllBooks = async (req, res) => {
                 msg: 'Libros no encontrados',
             });
         }
+        return res.json(books);
     } catch (error) {
         res.status(500).json({
             msg: 'Error al buscar todos los libros', error
