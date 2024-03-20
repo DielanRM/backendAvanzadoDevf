@@ -9,6 +9,7 @@ const authValidator = (req, res, next)=>{
 
     try {
         const payload = jwt.decode(token, process.env.SECRET);
+        req.role = payload.role;
         next()
     } catch (error) {
         return res.status(500).json({msg: 'token malo'});
