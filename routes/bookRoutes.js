@@ -8,8 +8,8 @@ bookRoutes.post('/', createBook);
 
 //TODO: GET BOOK BY ID
 bookRoutes.get('/:bookId', getBookById);
-//TODO: GET ALL BOOKS
 
+//TODO: GET ALL BOOKS
 bookRoutes.get('/', getAllBooks);
 
 export default bookRoutes;

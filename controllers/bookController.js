@@ -1,30 +1,39 @@
 import Book from '../models/Book.js';
 import Author from '../models/Author.js';
-import mongoose from 'mongoose';
 
 const createBook = async (req, res)=> {
     //1.- Registrar Authors en DB 
     //2.- Registrar Book con esos Authors
     
     try {
-        const {authors, books} = req.body;
+        const {authors, book} = req.body;
 
-        if(!Array.isArray(authors) ||  !books){
+        if(!Array.isArray(authors) ||  !book){
             return res.status(400).json({
-                msg: ' Body incorrecto'});
+                msg: 'Body incorrecto'});
         }
 
-        //[objetos] -> [modelos] convertir arreglo de objetos a uno de modelos
+        //[objetos] -> [promesas] convertir arreglo de objetos a uno de promesas
         const authorPromises = authors.map((element)=>{
             return Author.create(element);
         });
+        
         const authorModels = await Promise.all(authorPromises);
 
+        //[models] -> [ids]
+        const authorIds = authorModels.map((model)=>{
+            return model.id
+        })
+
+        book.authors = authorIds
+        const newBook = await Book.create(book);
+
+        return res.json(newBook);
 
     } catch (error) {
         res.status(500).json({
-            msg: 'Error al crear book', error
-        })
+            msg: 'Error al crear book', error,
+        });
     }
 }
 
@@ -80,39 +89,41 @@ const createBook = async (req, res)=> {
 // };
 
 
-// const getBookById = async (req, res) => {
-//     try {
-//         const book = await Book.findById(req.params.bookId);
+const getBookById = async (req, res) => {
+    try {
+        const book = await Book.findById(req.params.bookId).populate('authors');
 
-//         if(!book){
-//             return res.status(404).json({
-//                 msg: 'libro no encontrado',
-//             });
-//         }
+        if (!book) {
+            return res.status(404).json({
+                msg: 'libro no encontrado',
+            });
+        }
 
-//         //Responder el al libro
-//         return res.json(book);
+        //Responder el al libro
+        return res.json(book);
 
-//     } catch (error) {
-//         res.status(500).json({ msg: 'Error al buscar libro por Id', error})
-//     }
-//     //Buscar un libro por el Id
-// }
+    } catch (error) {
+        res.status(500).json({ msg: 'Error al buscar libro por Id', error })
+    }
+    //Buscar un libro por el Id
+}
 
-// const getAllBooks = async (req, res) => {
-//     try {
-//         const books = await Book.find();
+const getAllBooks = async (req, res) => {
+    try {
+        const books = await Book.find({});
 
-//         if(!books){
-//             return res.status(404).json({
-//                 msg: 'Libros no encontrados',
-//             });
-//         }
-//     } catch (error) {
-//         res.status(500).json({
-//             msg: 'Error al buscar todos los libros', error
-//         })
-//     }
-// }
+        if (!books) {
+            return res.status(404).json({
+                msg: 'Libros no encontrados',
+            });
+        }
+        return res.json(books);
+
+    } catch (error) {
+        res.status(500).json({
+            msg: 'Error al buscar todos los libros', error
+        })
+    }
+}
 
 export { createBook, getBookById, getAllBooks };
