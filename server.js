@@ -5,16 +5,18 @@
     3.- usar app.listen para abrir puertos */
 
 //1
-import express from 'express';
 import { connect } from './config.js';
+import express from 'express';
 import carRoutes from './routes/carRoutes.js';
 import bookRoutes from './routes/bookRoutes.js';
 
 //2
+connect();
+
 const api = express();
 api.use(express.json());
 
-connect();
+
 //3
 api.listen(8000, ()=>{
     console.log('api corriendo en puerto 8000');
