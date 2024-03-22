@@ -34,7 +34,7 @@ const login = async (req, res)=>{
     }
 
     try {
-        //biscamos user con ese correo
+        //buscamos user con ese correo
         const user = await User.findOne({
             email: req.body.email //donde email sea igual al del body
         });
